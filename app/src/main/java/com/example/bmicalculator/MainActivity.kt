@@ -27,13 +27,24 @@ class MainActivity : AppCompatActivity() {
 
 
             if (w.isBlank() || h.isBlank()) {
-                Toast.makeText(this, "please input data,cannot be blank", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Data cannot be blank", Toast.LENGTH_LONG).show()
                 textView.setText("").toString()
             } else {
                 val weight = w.toInt()
-                val height: Double = h.toInt() / 100.0
-                val bmi: Double = weight / (height * height)
-                textView.setText("Your BMI: $bmi").toString()
+                val intHeight = h.toInt()
+
+                if ((weight in 1000 downTo 1) and (intHeight in 300 downTo 1)) {
+                    val height: Double = intHeight / 100.0
+                    val unformedBmi: Double = weight / (height * height)
+                    val bmi = String.format("%.2f", unformedBmi)
+                    textView.setText("Your BMI: $bmi").toString()
+                    if (bmi.toDouble() > 100) {
+                        Toast.makeText(this, "Are you Alive!", Toast.LENGTH_LONG).show()
+                    }
+                } else {
+                    Toast.makeText(this, "Please input valid data", Toast.LENGTH_LONG).show()
+                    textView.setText("").toString()
+                }
             }
         }
     }
